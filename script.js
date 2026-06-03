@@ -97,7 +97,7 @@ const products = [
   },
 ];
 
-const businessWhatsAppNumber = "243000000000";
+const businessWhatsAppNumber = "12078997457";
 const deliveryDriverPhoneNumber = "+243 000 000 000";
 const cart = new Map();
 
