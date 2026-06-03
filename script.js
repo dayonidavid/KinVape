@@ -70,7 +70,7 @@ const products = [
     description: "Format compact, pratique et rechargeable avec une bonne autonomie.",
     price: 28,
     image:
-      "https://elfvaping.com/wp-content/uploads/2025/12/VOZOL-GEAR-ICE-SWEET-50K-50000-Puffs-Disposable-Vapes-Wholesale-Bulk-Buy-Four-Ice-Levels-Two-Sweet-Levels-11.webp",
+      "assets/products/vozol-gear-transparent.png",
     imageClass: "product-cutout",
     colors: ["#f1f7ff", "#ffffff"],
     stock: "En stock",
@@ -87,7 +87,7 @@ const products = [
     category: "Vape jetable",
     description: "Grande autonomie avec des saveurs sucrées, fruitées et gourmandes.",
     price: 38,
-    image: "https://vapordna.com/cdn/shop/files/Artery-CL6-50K-blueberry-watermelon.png?v=1750696794&width=580",
+    image: "assets/products/sweet-50k-transparent.png",
     imageClass: "product-cutout",
     colors: ["#fff0f6", "#ffffff"],
     stock: "Stock limité",
