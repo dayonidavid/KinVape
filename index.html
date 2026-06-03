@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KinVape | Boutique vape en RDC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="age-modal" id="ageModal" role="dialog" aria-modal="true" aria-labelledby="ageTitle">
+      <div class="age-panel">
+        <p class="eyebrow">Vérification d'âge</p>
+        <h1 id="ageTitle">Vous devez avoir 18 ans ou plus pour entrer sur KinVape.</h1>
+        <p>
+          Les produits de vape sont réservés aux adultes. Confirmez que vous avez au moins 18 ans et que vous êtes autorisé à acheter en RDC.
+        </p>
+        <div class="age-actions">
+          <button class="btn primary" id="confirmAge">J'ai 18 ans ou plus</button>
+          <button class="btn ghost" id="denyAge">Quitter</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="checkout-modal hidden" id="checkoutModal" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+      <form class="checkout-panel" id="checkoutForm">
+        <div class="checkout-panel-head">
+          <div>
+            <p class="eyebrow">Commande</p>
+            <h1 id="checkoutTitle">Livraison et paiement</h1>
+          </div>
+          <button class="icon-close" id="closeCheckout" type="button" aria-label="Fermer la commande">x</button>
+        </div>
+
+        <div class="form-grid">
+          <label>
+            Nom complet
+            <input id="customerName" name="customerName" type="text" autocomplete="name" required />
+          </label>
+          <label>
+            Numéro de téléphone
+            <input id="customerPhone" name="customerPhone" type="tel" autocomplete="tel" placeholder="+243..." required />
+          </label>
+          <label>
+            Ville
+            <input id="customerCity" name="customerCity" type="text" placeholder="Kinshasa" required />
+          </label>
+          <label>
+            Commune / quartier
+            <input id="customerArea" name="customerArea" type="text" placeholder="Gombe, Limete, Bandal..." required />
+          </label>
+          <label class="wide-field">
+            Adresse de livraison
+            <textarea id="customerAddress" name="customerAddress" rows="3" placeholder="Avenue, immeuble, référence..." required></textarea>
+          </label>
+          <label>
+            Numéro mobile money
+            <input id="paymentPhone" name="paymentPhone" type="tel" placeholder="+243..." required />
+          </label>
+          <label>
+            Confirmation d'âge
+            <select id="ageConfirm" name="ageConfirm" required>
+              <option value="">Choisir</option>
+              <option value="Oui, je confirme avoir 18 ans ou plus">Oui, je confirme avoir 18 ans ou plus</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="checkout-note">
+          <strong>Comment payer :</strong>
+          Envoyez d'abord votre commande sur WhatsApp. KinVape confirmera la disponibilité, l'âge, la livraison et les détails Orange Money, M-Pesa ou Airtel Money.
+        </div>
+
+        <div class="checkout-actions">
+          <button class="btn outline" id="copyOrderBtn" type="button">Copier la commande</button>
+          <button class="btn primary" type="submit">Envoyer sur WhatsApp</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="product-modal hidden" id="productModal" role="dialog" aria-modal="true" aria-labelledby="productModalTitle">
+      <div class="product-panel">
+        <button class="icon-close product-close" id="closeProduct" type="button" aria-label="Fermer le produit">x</button>
+        <div class="product-modal-grid">
+          <div class="product-modal-art" id="productModalArt"></div>
+          <div class="product-modal-info">
+            <p class="eyebrow" id="productModalCategory">Produit</p>
+            <h1 id="productModalTitle">Produit KinVape</h1>
+            <p id="productModalDescription"></p>
+            <dl class="product-specs" id="productSpecs"></dl>
+            <div class="product-modal-footer">
+              <strong id="productModalPrice">$0.00</strong>
+              <button class="btn primary" id="modalAddBtn" type="button">Ajouter au panier</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <header class="site-header">
+      <a class="brand" href="#" aria-label="Accueil KinVape">
+        <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+          <defs>
+            <linearGradient id="logoGradient" x1="9" y1="8" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#1787e8" />
+              <stop offset="0.58" stop-color="#0f6fbd" />
+              <stop offset="1" stop-color="#d6293f" />
+            </linearGradient>
+          </defs>
+          <rect width="64" height="64" rx="16" fill="url(#logoGradient)" />
+          <path d="M13 45c9-3 11-9 11-18 0-7 4-13 12-15" fill="none" stroke="#f6c542" stroke-width="5" stroke-linecap="round" />
+          <path d="M22 45V20h7v10l9-10h9L36 32l12 13h-9l-10-11v11h-7Z" fill="#ffffff" />
+          <path d="M45 12l2 5 5 2-5 2-2 5-2-5-5-2 5-2 2-5Z" fill="#f6c542" />
+        </svg>
+        <span>KinVape</span>
+      </a>
+      <nav class="nav-links" aria-label="Navigation principale">
+        <a href="#products">Produits</a>
+        <a href="#payments">Paiements</a>
+        <a href="#cart">Panier</a>
+      </nav>
+      <button class="cart-pill" type="button" id="cartJump">
+        <span>Panier</span>
+        <strong id="cartCount">0</strong>
+      </button>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Livraison vape premium en RDC</p>
+          <h2>Des vapes modernes, des saveurs propres et un paiement mobile money rapide.</h2>
+          <p>
+            Découvrez des kits, pods, e-liquides et accessoires sélectionnés pour les clients adultes à Kinshasa et dans les environs.
+          </p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#products">Voir les produits</a>
+            <a class="btn outline" href="#payments">Moyens de paiement</a>
+          </div>
+        </div>
+        <div class="hero-visual" aria-label="Produit vape mis en avant">
+          <img
+            class="hero-product hero-product-main"
+            src="https://oss.geekbar.com/products/meloso-ultra/3/Strawberry%20Mango.png"
+            alt="Geek Bar Pulse Strawberry Mango"
+          />
+          <div class="flavor-card">
+            <span>Meilleur choix</span>
+            <strong>Geek Bar Pulse</strong>
+            <small>18+ uniquement</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="trust-strip" aria-label="Pourquoi choisir KinVape">
+        <div class="trust-item">
+          <span>18+</span>
+          <strong>Réservé aux adultes</strong>
+          <p>Vérification d'âge avant chaque commande.</p>
+        </div>
+        <div class="trust-item">
+          <span>243</span>
+          <strong>Livraison à Kinshasa</strong>
+          <p>Gombe, Limete, Bandal, Ngaliema et autres zones sur confirmation.</p>
+        </div>
+        <div class="trust-item">
+          <span>MM</span>
+          <strong>Paiement mobile money</strong>
+          <p>Orange Money, M-Pesa et Airtel Money disponibles.</p>
+        </div>
+        <div class="trust-item">
+          <span>WA</span>
+          <strong>Commande par WhatsApp</strong>
+          <p>Votre commande est envoyée directement à KinVape.</p>
+        </div>
+      </section>
+
+      <section class="shop-layout" id="products">
+        <div class="section-head">
+          <p class="eyebrow">Produits populaires</p>
+          <h2>Essentiels vape pour adultes</h2>
+        </div>
+
+        <div class="content-grid">
+          <div class="products-grid" id="productsGrid" aria-live="polite"></div>
+
+          <aside class="cart-summary" id="cart">
+            <div class="cart-header">
+              <div>
+                <p class="eyebrow">Résumé du panier</p>
+                <h2>Votre commande</h2>
+              </div>
+              <button class="text-button" id="clearCart" type="button">Vider</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+              <p class="empty-cart">Votre panier est vide.</p>
+            </div>
+            <div class="total-row">
+              <span>Total</span>
+              <strong id="cartTotal">$0.00</strong>
+            </div>
+            <div class="payment-box" id="payments">
+              <p class="eyebrow">Moyens de paiement</p>
+              <div class="payment-options">
+                <label><input type="radio" name="payment" checked /> Orange Money</label>
+                <label><input type="radio" name="payment" /> M-Pesa</label>
+                <label><input type="radio" name="payment" /> Airtel Money</label>
+              </div>
+              <div class="payment-numbers">
+                <p><strong>Orange Money:</strong> +243 000 000 000</p>
+                <p><strong>M-Pesa:</strong> +243 000 000 000</p>
+                <p><strong>Airtel Money:</strong> +243 000 000 000</p>
+              </div>
+            </div>
+            <button class="btn checkout" id="checkoutBtn" type="button">Commander</button>
+            <p class="disclaimer">
+              Vous devez avoir 18 ans ou plus pour acheter des produits de vape. La disponibilité et la livraison dépendent des lois locales en RDC.
+            </p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="business-info" aria-label="Informations KinVape">
+        <div>
+          <p class="eyebrow">Infos boutique</p>
+          <h2>KinVape RDC</h2>
+          <p>
+            Commandes par WhatsApp, livraison sur Kinshasa et paiement mobile money après confirmation de la disponibilité.
+          </p>
+        </div>
+        <div class="business-grid">
+          <div>
+            <strong>WhatsApp</strong>
+            <span>+243 000 000 000</span>
+          </div>
+          <div>
+            <strong>Livreur</strong>
+            <span>+243 000 000 000</span>
+          </div>
+          <div>
+            <strong>Horaires</strong>
+            <span>Lun-Sam, 10h-20h</span>
+          </div>
+          <div>
+            <strong>Zones</strong>
+            <span>Kinshasa, livraison à confirmer</span>
+          </div>
+          <div>
+            <strong>Politique</strong>
+            <span>Produits scellés uniquement, 18+ obligatoire</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <strong>KinVape</strong>
+      <span>Réservé aux adultes. Aucune vente aux mineurs.</span>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
