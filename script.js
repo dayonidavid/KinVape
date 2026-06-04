@@ -173,7 +173,7 @@ const products = [
   },
 ];
 
-const businessWhatsAppNumber = "12078767674";
+const businessWhatsAppNumber = "243837933422";
 const cart = new Map();
 
 const ageModal = document.querySelector("#ageModal");
@@ -259,7 +259,7 @@ function getCartStats() {
 }
 
 function getSelectedPaymentMethod() {
-  return document.querySelector('input[name="payment"]:checked')?.parentElement.textContent.trim() || "Orange Money";
+  return document.querySelector('input[name="payment"]:checked')?.parentElement.textContent.trim() || "M-Pesa";
 }
 
 function getCartLines() {
