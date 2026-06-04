@@ -74,10 +74,10 @@ a {
 }
 
 .brand-mark {
-  width: 42px;
-  height: 42px;
-  border-radius: 14px;
-  box-shadow: 0 14px 30px rgba(11, 76, 140, 0.25);
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 22px rgba(11, 76, 140, 0.22));
 }
 
 .nav-links {
@@ -332,6 +332,10 @@ a {
   animation-delay: 350ms;
 }
 
+.product-card:nth-child(7) {
+  animation-delay: 420ms;
+}
+
 .product-card:hover {
   border-color: rgba(20, 121, 214, 0.3);
   box-shadow: 0 20px 45px rgba(20, 32, 43, 0.12);
@@ -397,6 +401,16 @@ a {
   background: rgba(246, 197, 66, 0.28);
 }
 
+.stock-badge.out-of-stock {
+  color: #6b7280;
+  background: rgba(98, 116, 133, 0.16);
+}
+
+.stock-badge.sale-stock {
+  color: #0b4c8c;
+  background: rgba(20, 121, 214, 0.14);
+}
+
 .product-info h3 {
   margin: 12px 0 8px;
   font-size: 1.14rem;
@@ -440,12 +454,64 @@ a {
   font-weight: 800;
 }
 
+.price-stack {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.old-price {
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 800;
+  text-decoration: line-through;
+}
+
+.sale-price {
+  color: var(--coral);
+}
+
+.promo-ribbon {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 11px;
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--coral), #ff7a45);
+  font-size: 0.78rem;
+  font-weight: 900;
+  box-shadow: 0 12px 24px rgba(214, 41, 63, 0.2);
+}
+
+.product-card.is-unavailable .product-art img {
+  filter: grayscale(0.45) saturate(0.65);
+  opacity: 0.74;
+}
+
+.product-card.is-unavailable h3,
+.product-card.is-unavailable .product-price {
+  color: #6b7280;
+}
+
 .add-btn {
   min-height: 42px;
   min-width: 0;
   padding: 0 10px;
   color: #fff;
   background: linear-gradient(135deg, var(--ink), #0b4c8c);
+}
+
+.add-btn:disabled {
+  color: #718096;
+  background: #e7eef2;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 .cart-summary {
@@ -812,6 +878,9 @@ a {
 }
 
 .product-modal-footer strong {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
   font-size: 1.45rem;
 }
 

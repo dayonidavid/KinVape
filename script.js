@@ -7,8 +7,8 @@ const products = [
     price: 24,
     image: "https://oss.geekbar.com/uploads/upload/upload/202408281011265585_650X650.png",
     colors: ["#d8efff", "#ffffff"],
-    stock: "En stock",
-    stockClass: "in-stock",
+    stock: "Rupture de stock",
+    stockClass: "out-of-stock",
     specs: {
       Saveur: "Menthe fraîche",
       Type: "Vape jetable",
@@ -23,8 +23,8 @@ const products = [
     price: 24,
     image: "https://oss.geekbar.com/products/meloso-ultra/3/Watermelon%20Ice.png",
     colors: ["#ffe28a", "#fff5f2"],
-    stock: "Stock limité",
-    stockClass: "low-stock",
+    stock: "Rupture de stock",
+    stockClass: "out-of-stock",
     specs: {
       Saveur: "Pastèque glacée",
       Type: "Vape jetable",
@@ -39,11 +39,32 @@ const products = [
     price: 24,
     image: "https://oss.geekbar.com/products/meloso-ultra/3/Strawberry%20Mango.png",
     colors: ["#ffd0a6", "#fff3e8"],
-    stock: "En stock",
-    stockClass: "in-stock",
+    stock: "Rupture de stock",
+    stockClass: "out-of-stock",
     specs: {
       Saveur: "Fraise mangue",
       Type: "Vape jetable",
+      "Âge requis": "18+",
+    },
+  },
+  {
+    id: "vozol-vista-20k-watermelon",
+    name: "Vozol Vista 20K Watermelon",
+    category: "Vape jetable",
+    description: "Promotion spéciale sur la saveur pastèque fraîche, avec grande autonomie et design transparent.",
+    price: 10,
+    oldPrice: 20,
+    image: "assets/products/vozol-vista-20k-watermelon-transparent.png",
+    imageClass: "product-cutout",
+    badge: "Promo",
+    colors: ["#e9fff4", "#ffffff"],
+    stock: "En promo",
+    stockClass: "in-stock sale-stock",
+    specs: {
+      Saveur: "Watermelon",
+      Bouffées: "Jusqu'à 20K",
+      Type: "Vape jetable rechargeable",
+      "Prix promo": "$10 au lieu de $20",
       "Âge requis": "18+",
     },
   },
@@ -138,10 +159,17 @@ function formatPrice(value) {
 function renderProducts() {
   productsGrid.innerHTML = products
     .map(
-      (product) => `
-        <article class="product-card">
+      (product) => {
+        const unavailable = product.stockClass.includes("out-of-stock");
+        const priceMarkup = product.oldPrice
+          ? `<span class="price-stack"><span class="old-price">${formatPrice(product.oldPrice)}</span><span class="product-price sale-price">${formatPrice(product.price)}</span></span>`
+          : `<span class="product-price">${formatPrice(product.price)}</span>`;
+
+        return `
+        <article class="product-card ${unavailable ? "is-unavailable" : ""} ${product.badge ? "is-sale" : ""}">
           <div class="product-art" style="--card-a:${product.colors[0]}; --card-b:${product.colors[1]};">
-            <img src="${product.image}" alt="${product.name}" loading="lazy" />
+            ${product.badge ? `<span class="promo-ribbon">${product.badge}</span>` : ""}
+            <img class="${product.imageClass || ""}" src="${product.image}" alt="${product.name}" loading="lazy" />
           </div>
           <div class="product-info">
             <div class="product-meta">
@@ -151,15 +179,16 @@ function renderProducts() {
             <h3>${product.name}</h3>
             <p>${product.description}</p>
             <div class="product-footer">
-              <span class="product-price">${formatPrice(product.price)}</span>
+              ${priceMarkup}
               <div class="product-actions">
                 <button class="detail-btn" type="button" data-detail="${product.id}">Détails</button>
-                <button class="btn add-btn" type="button" data-product="${product.id}">Ajouter</button>
+                <button class="btn add-btn" type="button" data-product="${product.id}" ${unavailable ? "disabled" : ""}>${unavailable ? "Indisponible" : "Ajouter"}</button>
               </div>
             </div>
           </div>
         </article>
-      `
+      `;
+      }
     )
     .join("");
 }
@@ -225,6 +254,9 @@ function renderCart() {
 }
 
 function addToCart(productId) {
+  const product = products.find((item) => item.id === productId);
+  if (!product || product.stockClass.includes("out-of-stock")) return;
+
   cart.set(productId, (cart.get(productId) || 0) + 1);
   renderCart();
 }
@@ -247,13 +279,18 @@ function openProductModal(productId) {
   productModalCategory.textContent = `${product.category} · ${product.stock}`;
   productModalTitle.textContent = product.name;
   productModalDescription.textContent = product.description;
-  productModalPrice.textContent = formatPrice(product.price);
-  productModalArt.innerHTML = `<img src="${product.image}" alt="${product.name}" />`;
+  productModalPrice.innerHTML = product.oldPrice
+    ? `<span class="old-price">${formatPrice(product.oldPrice)}</span><span class="sale-price">${formatPrice(product.price)}</span>`
+    : formatPrice(product.price);
+  productModalArt.innerHTML = `<img class="${product.imageClass || ""}" src="${product.image}" alt="${product.name}" />`;
   productModalArt.style.setProperty("--card-a", product.colors[0]);
   productModalArt.style.setProperty("--card-b", product.colors[1]);
   productSpecs.innerHTML = Object.entries(product.specs)
     .map(([label, value]) => `<div><dt>${label}</dt><dd>${value}</dd></div>`)
     .join("");
+  const unavailable = product.stockClass.includes("out-of-stock");
+  modalAddBtn.disabled = unavailable;
+  modalAddBtn.textContent = unavailable ? "Indisponible" : "Ajouter au panier";
   productModal.classList.remove("hidden");
   document.body.classList.add("modal-open");
 }
